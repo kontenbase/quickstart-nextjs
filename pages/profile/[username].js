@@ -2,10 +2,9 @@ import * as React from 'react';
 import { useRouter } from 'next/router';
 import { kontenbase } from '../../lib/kontenbase';
 
-export default function () {
-  const {
-    query: { username },
-  } = useRouter();
+export default function Profile() {
+  const query = useRouter();
+  const { username } = query;
   const [user, setUser] = React.useState();
 
   React.useEffect(() => {
