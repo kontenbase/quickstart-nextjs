@@ -1,14 +1,19 @@
 import * as React from 'react';
 import { useRouter } from 'next/router';
-import { kontenbase } from '../lib/kontenbase';
+import { kontenbase } from '../../lib/kontenbase';
 
-export default function Account() {
-  const router = useRouter();
+export default function () {
+  const {
+    query: { username },
+  } = useRouter();
   const [user, setUser] = React.useState();
 
   React.useEffect(() => {
     (async function () {
-      const { user, error } = await kontenbase.auth.user({
+      const { data: user, error } = await kontenbase.service('Users').find({
+        where: {
+          username,
+        },
         lookup: '*',
       });
 
@@ -17,52 +22,18 @@ export default function Account() {
         return;
       }
 
-      setUser(user);
+      setUser(user?.[0]);
     })();
-  }, []);
-
-  async function handleLogout() {
-    const { error } = await kontenbase.auth.logout();
-
-    if (error) {
-      console.log(error);
-      return;
-    }
-
-    router.push('/');
-  }
-
-  function handleShareProfile(e) {
-    e.preventDefault();
-    navigator.clipboard.writeText(
-      'YOUR_NEXT_APP_URL/profile/' + user?.username
-    );
-    alert('Link Copied!');
-  }
-
-  function handleLogin() {
-    router.push('/');
-  }
-
-  function handleEditAccount() {
-    router.push('/edit-account');
-  }
+  }, [username]);
 
   return (
     <>
       {!user ? (
-        <div className="not-autheticated">
-          <p>Your Are not autheticated!</p>
-          <button onClick={handleLogin} className="button button-primary">
-            Login
-          </button>
+        <div className="not-found">
+          <p>User Not Found</p>
         </div>
       ) : (
         <div className="profile-page">
-          <div className="button-top">
-            <button onClick={handleEditAccount}>Edit Profile</button>
-            <button onClick={handleLogout}>Logout</button>
-          </div>
           <div className="profile-wrapper">
             <div className="profile-header">
               <img
@@ -81,11 +52,6 @@ export default function Account() {
               <p>{user?.profile?.[0]?.position ?? 'position is null'}</p>
             </div>
             <div className="card">
-              <div className="share-contact">
-                <button className="button-share" onClick={handleShareProfile}>
-                  Share
-                </button>
-              </div>
               <h3>Contact</h3>
               <div className="card-field">
                 <span>Name</span>
