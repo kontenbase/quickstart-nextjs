@@ -8,7 +8,7 @@ const Profile = () => {
   const [user, setUser] = React.useState();
 
   React.useEffect(() => {
-    (async = () => {
+    (async () => {
       const { data: user, error } = await kontenbase.service('Users').find({
         where: {
           username,
