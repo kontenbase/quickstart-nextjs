@@ -2,12 +2,12 @@ import * as React from 'react';
 import { useRouter } from 'next/router';
 import { kontenbase } from '../lib/kontenbase';
 
-export default function Account() {
+const MyAccount = () => {
   const router = useRouter();
   const [user, setUser] = React.useState();
 
   React.useEffect(() => {
-    (async function () {
+    (async () => {
       const { user, error } = await kontenbase.auth.user({
         lookup: '*',
       });
@@ -21,7 +21,7 @@ export default function Account() {
     })();
   }, []);
 
-  async function handleLogout() {
+  const handleLogout = async () => {
     const { error } = await kontenbase.auth.logout();
 
     if (error) {
@@ -30,23 +30,25 @@ export default function Account() {
     }
 
     router.push('/');
-  }
+  };
 
-  function handleShareProfile(e) {
+  const handleShareProfile = (e) => {
     e.preventDefault();
-    navigator.clipboard.writeText(
-      'YOUR_NEXT_APP_URL/profile/' + user?.username
-    );
-    alert('Link Copied!');
-  }
+    navigator.clipboard
+      .writeText(`${window.location.hostname}/profile/${user?.username}`)
+      .then(
+        () => alert('Link Copied!'),
+        () => alert('Failed to copy. Please open in new window.')
+      );
+  };
 
-  function handleLogin() {
+  const handleLogin = () => {
     router.push('/');
-  }
+  };
 
-  function handleEditAccount() {
+  const handleEditAccount = () => {
     router.push('/edit-account');
-  }
+  };
 
   return (
     <>
@@ -126,4 +128,6 @@ export default function Account() {
       )}
     </>
   );
-}
+};
+
+export default MyAccount;

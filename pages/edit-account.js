@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useRouter } from 'next/router';
 import { kontenbase } from '../lib/kontenbase';
 
-export default function EditAccount() {
+const EditAccount = () => {
   const router = useRouter();
   const [profileId, setProfileId] = React.useState('');
   const [firstName, setFirstName] = React.useState('');
@@ -16,7 +16,7 @@ export default function EditAccount() {
   const [website, setWebsite] = React.useState('');
 
   React.useEffect(() => {
-    (async function () {
+    (async () => {
       const { user, error } = await kontenbase.auth.user({
         lookup: '*',
       });
@@ -27,6 +27,7 @@ export default function EditAccount() {
       }
 
       const profile = user?.profile?.[0];
+
       setProfileId(profile?._id);
       setFirstName(user?.firstName);
       setLastName(user?.lastName);
@@ -39,7 +40,7 @@ export default function EditAccount() {
     })();
   }, []);
 
-  async function handleLogout() {
+  const handleLogout = async () => {
     const { error } = await kontenbase.auth.logout();
 
     if (error) {
@@ -48,9 +49,9 @@ export default function EditAccount() {
     }
 
     router.push('/');
-  }
+  };
 
-  async function handleChangeImage(e) {
+  const handleChangeImage = async (e) => {
     setLoading(true);
     const file = e.target.files[0];
     const { data, error: uploadError } = await kontenbase.storage.upload(file);
@@ -59,7 +60,6 @@ export default function EditAccount() {
       alert(uploadError.message);
       return;
     }
-
     const { error: updateError } = await kontenbase
       .service('profile')
       .updateById(profileId, {
@@ -73,9 +73,9 @@ export default function EditAccount() {
 
     setImage(data?.url);
     setLoading(false);
-  }
+  };
 
-  async function handleUpdate(e) {
+  const handleUpdate = async (e) => {
     e.preventDefault();
 
     const { error: userError } = await kontenbase.auth.update({
@@ -83,7 +83,6 @@ export default function EditAccount() {
       firstName,
       phoneNumber,
     });
-
     const { error: profileError } = await kontenbase
       .service('profile')
       .updateById(profileId, {
@@ -98,11 +97,11 @@ export default function EditAccount() {
     }
 
     router.push('/myaccount');
-  }
+  };
 
-  function handleGotoBack() {
+  const handleGotoBack = () => {
     router.push('/myaccount');
-  }
+  };
 
   return (
     <div className="profile-page">
@@ -197,4 +196,6 @@ export default function EditAccount() {
       </div>
     </div>
   );
-}
+};
+
+export default EditAccount;

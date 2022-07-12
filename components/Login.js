@@ -2,12 +2,12 @@ import * as React from 'react';
 import { useRouter } from 'next/router';
 import { kontenbase } from '../lib/kontenbase';
 
-export default function Login() {
+const Login = () => {
   const router = useRouter();
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  async function handleLogin(e) {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     const { error } = await kontenbase.auth.login({
@@ -21,7 +21,7 @@ export default function Login() {
     }
 
     router.push('/myaccount');
-  }
+  };
 
   return (
     <div>
@@ -51,4 +51,6 @@ export default function Login() {
       </form>
     </div>
   );
-}
+};
+
+export default Login;

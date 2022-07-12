@@ -2,13 +2,13 @@ import * as React from 'react';
 import { useRouter } from 'next/router';
 import { kontenbase } from '../../lib/kontenbase';
 
-export default function Profile() {
+const Profile = () => {
   const query = useRouter();
   const { username } = query;
   const [user, setUser] = React.useState();
 
   React.useEffect(() => {
-    (async function () {
+    (async = () => {
       const { data: user, error } = await kontenbase.service('Users').find({
         where: {
           username,
@@ -91,4 +91,6 @@ export default function Profile() {
       )}
     </>
   );
-}
+};
+
+export default Profile;

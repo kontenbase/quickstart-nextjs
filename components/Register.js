@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useRouter } from 'next/router';
 import { kontenbase } from '../lib/kontenbase';
 
-export default function Register() {
+const Register = () => {
   const router = useRouter();
   const [firstName, setFirstName] = React.useState('');
   const [lastName, setLastName] = React.useState('');
@@ -10,7 +10,7 @@ export default function Register() {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
 
-  async function handleRegister(e) {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
     const { user, error } = await kontenbase.auth.register({
@@ -36,7 +36,7 @@ export default function Register() {
     }
 
     router.push('/myaccount');
-  }
+  };
 
   return (
     <div>
@@ -91,4 +91,6 @@ export default function Register() {
       </form>
     </div>
   );
-}
+};
+
+export default Register;

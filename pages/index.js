@@ -4,12 +4,12 @@ import Login from '../components/Login';
 import Register from '../components/Register';
 import { kontenbase } from '../lib/kontenbase';
 
-export default function Auth() {
+const Home = () => {
   const router = useRouter();
   const [switchAuthForm, setSwitchAuthForm] = React.useState('login');
 
   React.useEffect(() => {
-    (async function () {
+    (async () => {
       const { error } = await kontenbase.auth.user();
 
       if (error) {
@@ -21,13 +21,13 @@ export default function Auth() {
     })();
   }, []);
 
-  function handleRegisterForm() {
+  const handleRegisterForm = () => {
     setSwitchAuthForm('register');
-  }
+  };
 
-  function handleLoginForm() {
+  const handleLoginForm = () => {
     setSwitchAuthForm('login');
-  }
+  };
 
   return (
     <div className="auth-page">
@@ -38,4 +38,6 @@ export default function Auth() {
       {switchAuthForm === 'register' ? <Register /> : <Login />}
     </div>
   );
-}
+};
+
+export default Home;
