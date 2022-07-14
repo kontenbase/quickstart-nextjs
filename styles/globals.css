@@ -129,11 +129,9 @@ input[type='file'] {
   margin-top: 2px;
   cursor: pointer;
 }
-
 .label-file span {
   margin-top: 10px;
 }
-
 .not-autheticated {
   margin-top: 30vh;
   text-align: center;
