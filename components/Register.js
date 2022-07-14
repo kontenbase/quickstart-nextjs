@@ -35,7 +35,7 @@ const Register = () => {
       return;
     }
 
-    router.push('/myaccount');
+    router.push('/profile');
   };
 
   return (

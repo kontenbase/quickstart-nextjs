@@ -17,7 +17,7 @@ const Home = () => {
         return;
       }
 
-      router.push('/myaccount');
+      router.push('/profile');
     })();
   }, []);
 

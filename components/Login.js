@@ -20,7 +20,7 @@ const Login = () => {
       return;
     }
 
-    router.push('/myaccount');
+    router.push('/profile');
   };
 
   return (
